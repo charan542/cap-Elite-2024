@@ -1,0 +1,89 @@
+public class Codec {
+    String s="";
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if(root==null){
+            s+="ull";
+            return s;
+        }
+       Queue<TreeNode> q= new LinkedList<>();
+       q.add(root);
+       s=s+String.valueOf(root.val);
+       while(!q.isEmpty()){
+           int size=q.size();
+           for(int i=0;i<size;i++){
+               TreeNode curr=q.poll();
+               
+               if(curr.left!=null){
+                   q.add(curr.left);
+                   s+=","+String.valueOf(curr.left.val);
+
+               }
+               else{
+                   s+=","+"ull";
+               }
+               if(curr.right!=null){
+                   q.add(curr.right);
+                   s+=","+String.valueOf(curr.right.val);
+                   
+               }
+                else{
+                   s+=","+"ull";
+               }
+           }
+
+       }
+       
+        return s;
+        
+    }
+    TreeNode root;
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        if(data.equals("ull")){
+    
+        return root;
+        }
+        String[] a= data.split(",");
+        
+        List<String> s= new ArrayList<>();
+        Collections.addAll(s,a);
+        
+        
+        Queue <TreeNode> q=new LinkedList<>();
+        TreeNode root = new TreeNode (Integer.parseInt(s.get(0)));
+        s.remove(0);
+        q.add(root);
+        while(q.size()>=1){
+           
+            int n=q.size();
+            for(int i=0;i<n;i++){
+                 TreeNode curr=q.poll();
+                 String lef=s.get(0);
+                 s.remove(0);
+                 String righ=s.get(0);
+                 s.remove(0);
+                 if(lef.equals("ull")){
+                     curr.left=null;
+                 }
+                 else{
+
+                     curr.left=new TreeNode(Integer.parseInt(lef));
+                     q.add(curr.left);
+                 }
+                 if(righ.equals("ull")){
+                     curr.right=null;
+                 }
+                 else{
+
+                     curr.right=new TreeNode(Integer.parseInt(righ));
+                     q.add(curr.right);
+                 }
+                 
+            }
+        
+        }
+
+    return root;
+    }
+}
